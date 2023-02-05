@@ -34,7 +34,7 @@ prerequisites:
 steps:
 
 1. Get this application's oauth secret from kiya: `kiya shared copy jira-mic/oauthsecret`
-2. Build and start the spring boot app, providing the secret as a command line parameter: `mvn spring-boot:run -Dspring-boot.run.arguments=--oauth.secret=<kiya secret>`
+2. Build and start the spring boot app, providing the secret as a command line parameter: `mvn spring-boot:run -Dspring-boot.run.arguments=--external.oauth2secret=<kiya secret>`
 3. Once the application has started, go to https://localhost:8080, and enjoy!
 
 ### How to use?
