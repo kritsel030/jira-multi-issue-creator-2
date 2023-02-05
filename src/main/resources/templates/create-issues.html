@@ -1,0 +1,273 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:line-height="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Jira issues</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <style>
+        h1 {
+          background-color: rgb(18, 97, 117);
+          color: white
+        }
+
+        h4 {
+          background-color: #F4F5F7;
+        }
+
+        table.teams, th.teams, td.teams {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 3px
+        }
+
+        .check {
+            color: green;
+            font-weight: bold
+        }
+
+        .cross {
+            color: red;
+            font-weight: bold
+        }
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <h1>Jira multi-issue creator</h1>
+            <p/>
+            Welcome to the <b>Jira multi-issue creator</b>.
+            Your friend when you want to create a batch of identical user stories on multiple Jira boards.
+            <p/>
+
+            <b>How <u>not</u> to use this tool</b><br/>
+            Use this tool to create stories on team Jira boards, so you can keep track of progress of generic tasks
+            that need to be executed by multiple teams. <br/>
+            Do not expect teams to pick up your stories, just because you put them on their Jira boards.
+            Be polite, and properly communicate your requests to the teams via the communication channels available.
+            <p/>
+
+            <!---------------- step 1 ------------------------------------------------>
+            <h4>Step 1: Login</h4>
+            <p/>
+            Hi <b th:text="${principal}">Principal ...</b>, you've already successfully completed this first step.
+            <p/>
+
+            <form action="#" th:action="@{/create-issues}" th:object="${form}" method="post">
+                <!---------------- step 2 ------------------------------------------------>
+                <h4> Step 2: Define your story</h4>
+                <p/>
+                <b>Summary/title</b> (<i>mandatory</i>)</br>
+                <input type="text" th:field="*{summary}" size="75"/>
+                <p/>
+
+                <table width="100%">
+                    <tr>
+                        <td valign="top" width="30%">
+                            <b>Assignee</b></br>
+                            <input type="text" disabled size="30" th:value="'Unassigned'" />
+                        </td>
+                        <td valign="top" >
+                            <b>Reporter</b> </br>
+                            <table>
+                                <tr>
+                                    <td valign="top" >
+                                        <input type="radio" id="optionYou" name="you" value="you" th:field="*{reporterChoice}">
+                                        <label for="optionNone">You</label>
+                                    </td>
+                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                    <td valign="top" >
+                                        <input type="text" disabled size="30" th:value="${principal}"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td valign="top" >
+                                        <input type="radio" id="optionSomeoneElse" name="someoneElse" value="someoneElse" th:field="*{reporterChoice}">
+                                        <label for="optionSomeoneElse">Someone else</label>
+                                    </td>
+                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                    <td valign="top" >
+                                        <i>fill in the email address of the Jira user</i><br/>
+                                        <input type="text" size="30" th:field="*{reporterEmail}"/>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </td>
+                    </tr>
+                </table>
+                <p/>
+                <p/>
+
+                <table width="100%">
+                    <tr>
+                        <td valign="top">
+                            <b>Description</b> (<i>mandatory</i>)</br>
+                            <textarea style="line-height:1.5" rows="12" cols="75" th:field="*{description}" dis/>
+                            <p/>
+                            <p/>
+
+                            <b>Label</b> (<i>no spaces!</i>)<br/>
+                            (<i>optional, but highly recommended so you can find all stories in this set later on</i>)
+                            <input type="text" size="30" th:field="*{label}" />
+                            <p/>
+
+                            <b>Budget type</b> <br/>
+                            (<i>will be ignored for projects which do not support this field</i>)</br>
+                            <input type="radio" id="optionNone" name="none" value="None" th:checked th:field="*{budgetType}">
+                            <label for="optionNone">None</label><br/>
+                            <input type="radio" id="optionEnabler" name="enabler" value="Enabler" th:field="*{budgetType}">
+                            <label for="optionEnabler">Enabler</label>
+                        </td>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                        <td valign="top">
+                            <i>Example description showcasing all available formatting possibilities</i></br>
+                            <textarea style="line-height:1.5" rows="6" cols="75" disabled>
+*A bold line*
+_An italic line_
++An underlined line+
+*_Combining markups does not work_*
+
+Markup *within* a -line- does +not+ work. Empty lines are taken into account. Long lines will simply wrap around.
+
+A numbered list:
+# item 1.
+# item 2.
+A bullet list:
+* first item
+* second item
+                            </textarea>
+                            <p/>
+                            <p/>
+                            <i>Jira preview for the example description (notice the line spacing)</i>
+                            <div style="border:1px solid black;height: 300px; overflow-y: scroll;">
+                                <p style="line-height: 1.4"><b>A bold line</b></p>
+                                <p style="line-height: 1.4"><i>An italic line</i></p>
+                                <p style="line-height: 1.4"><u>An underlined line</u></p>
+                                <p style="line-height: 1.4"><b>_Combining markups does not work_</b></p>
+                                <p style="line-height: 1.4">&nbsp;<p/>
+                                <p style="line-height: 1.4">Markup *within* a -line- does +not+ work.
+                                    Empty lines are taken into account.
+                                    Long lines will simply wrap around.</p>
+                                <p style="line-height: 1.4">&nbsp;<p/>
+                                <p style="line-height: 1.4">A numbered list</p>
+                                <ol>
+                                    <li>item 1.</li>
+                                    <li>item 2.</li>
+                                </ol>
+                                <p style="line-height: 1.4">A bullet list</p>
+                                <ul>
+                                    <li>first item</li>
+                                    <li>second item</li>
+                                </ul>
+                                <p style="line-height: 1.4">&nbsp;<p/>
+                                <p style="line-height: 1.4"><i>This story was created by KrampHub's Jira multi-issue creator.</i></p>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <p/>
+
+                <!---------------- step 3 ------------------------------------------------>
+                <h4>Step 3: Select the Jira projects where your story needs to be created</h4>
+                <p/>
+                Use the checkboxes in front of every team/project row.
+                <p/>
+                Some notes:
+                <ul>
+                    <li>The teams and their Jira projects shown below are configured within this tool.</li>
+                    <li>Some teams are not selected by default, as they have a different kind of role in the organization
+                        and might not need to participate in whatever you would like teams to do.
+                        You can however still select them.</li>
+                    <li>When the table indicates you're not allowed to create issues in a project, it can mean one of two things.
+                        Either the Jira project exists and you're not allowed to create issues in it,
+                        or the Jira project doesn't exist at all.</li>
+                    <li>You <u>cannot</u> select Jira projects you're not allowed to create issues in.</li>
+                    <li>You <u>cannot</u> select Jira projects which do not support the 'Story' issue type. <br/>
+                        <i>(yes, due to Jira's flexibility such projects can and do exist)</i></li>
+                    <li>You can select Jira projects where the 'Story' issue type does not support the 'Budget type' field.
+                        That field will simply be ignored when creating the issue in such a Jira project.</br>
+                        <i>(yes, due to Jira's flexibility such projects can and do exist)</i>
+                    </li>
+                </ul>
+                <p/>
+                <table class="teams">
+                    <thead>
+                    <tr>
+                        <th class="teams" colspan="2"> Team </th>
+                        <th class="teams"> Jira project </th>
+                        <th class="teams"> Create issue <br/> allowed <br/> for you? </th>
+                        <th class="teams"> 'Story' <br/> supported? </th>
+                        <th class="teams"> 'Budget type' <br/> supported? </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <th:block th:each="key: ${teamsAndProjectsGroups.keySet()}">
+                        <th:block th:with="teamProjectList=${teamsAndProjectsGroups.get(key)}">
+                            <tr>
+                                <td class="teams" colspan="6"> <i><b th:text="${key}" /></i> </td>
+                            </tr>
+                            <tr th:each="teamProject: ${teamProjectList}">
+                                <!-- checkbox -->
+                                <td class="teams">
+                                    <!-- disable checkbox if the logged is not allowed to create a story in the project -->
+                                    <input type="checkbox"
+                                           name="selectedJiraProjectKeys"
+                                           th:value="${teamProject.projectKey}"
+                                           th:checked="${teamProject.selected}"
+                                           th:disabled="${!teamProject.selectEnabled}"/>
+                                </td>
+                                <!-- team name -->
+                                <td class="teams"><span th:text="${teamProject.teamName}"> ... </span></td>
+                                <!-- Jira project link -->
+                                <td class="teams" >
+                                    <a th:href="${'https://kramphub.atlassian.net/browse/'+teamProject.projectKey}" th:text="${teamProject.projectKey}"> ... </a>
+                                    <span th:if="${teamProject.createIssueAllowed}" th:text="${teamProject.projectName}"> ... </span>
+                                    <i th:unless="${teamProject.createIssueAllowed}" th:text="'Unknown'"> ... </i>
+                                </td>
+                                <!-- create issue allowed? -->
+                                <td class="teams" style="text-align:center">
+                                    <span th:if="${teamProject.createIssueAllowed}" th:class="check">&check;</span>
+                                    <span th:unless="${teamProject.createIssueAllowed}" th:class="cross">&#10060;</span>
+                                </td>
+                                <!-- story supported? -->
+                                <td class="teams" style="text-align:center" th:switch="${teamProject.createIssueAllowed}">
+                                    <th:block th:case="true">
+                                        <span th:if="${teamProject.storyIssueTypeSupported}" th:class="check">&check;</span>
+                                        <span th:unless="${teamProject.storyIssueTypeSupported}" th:class="cross">&#10060;</span>
+                                    </th:block>
+                                    <i th:case="false" th:text="unknown"> ... </i>
+                                </td>
+                                <!-- 'Budget type' supported? -->
+                                <td class="teams" style="text-align:center" th:switch="${teamProject.createIssueAllowed}">
+                                    <th:block th:case="true">
+                                        <span th:if="${teamProject.budgetTypeFieldSupported}" th:class="check">&check;</span>
+                                        <span th:unless="${teamProject.budgetTypeFieldSupported}" th:class="cross">&#10060;</span>
+                                    </th:block>
+                                    <i th:case="false" th:text="unknown"> ... </i>
+                                </td>
+                            </tr>
+                        </th:block>
+                    </th:block>
+                    </tbody>
+                </table>
+                <p/>
+
+                <!---------------- step 4 ------------------------------------------------>
+                <h4>Step 4: Go create!</h4>
+                <p/>
+                Take one last peek at everything you've defined in steps 2 and 3. <br/>
+                Are you satisfied? Then let's go and create some stories!
+                <p/>
+                <p><input type="submit" value="Create stories" /> </p>
+                <p/>
+                We will show you the list of created stories when this step is done.
+
+            </form>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

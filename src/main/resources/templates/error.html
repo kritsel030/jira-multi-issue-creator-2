@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <style>
+        h1 {
+          background-color: rgb(18, 97, 117);
+          color: white
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="col-sm-12">
+        <h1>Oops...</h1>
+        Sorry, something didn't go as planned. You can try and go back to the <a href="/">homepage</a>.
+        <p/>
+
+        <table>
+            <tr>
+                <td><b>Message</b></td>
+                <td th:text="${message}"/>
+            </tr>
+            <tr><td colspan="2">&nbsp;</td></tr>
+            <tr>
+                <td valign="top"><b>Exception</b></td>
+                <td th:text="${exception}"/>
+            </tr>
+            <tr>
+                <td><b>Path</b></td>
+                <td th:text="${path}"/>
+            </tr>
+            <tr>
+                <td><b>Error</b></td>
+                <td> <span th:text="${status}"/> <span th:text="${error}"/> </td>
+            </tr>
+            <tr>
+                <td><b>Date</b></td>
+                <td th:text="${timestamp}"/>
+            </tr>
+            <tr>
+                <td valign="top"><b>Trace</b></td>
+                <td>
+                    <pre th:text="${trace}"/>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>

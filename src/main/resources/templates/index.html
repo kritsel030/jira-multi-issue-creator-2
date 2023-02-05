@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <style>
+        h1 {
+          background-color: rgb(18, 97, 117);
+          color: white
+        }
+    </style>
+
+</head>
+<body>
+<div class="container">
+    <div class="col-sm-6">
+        <h1>Welcome</h1>
+        Welcome to the <b>Jira multi-issue creator</b>.
+        Your friend when you want to create a batch of identical user stories on multiple Jira boards.
+        <p/>
+        <p/>
+        <th:block th:unless="${authenticated}">
+            Please <a th:href="${url}">logon to your Atlassian Jira account</a> to continue.<br/>
+            <i>You will be asked to allow this application to use your Atlassian account to execute
+                Jira activities on your behalf. You will need to accept to be able to continue.</i>
+        </th:block>
+        <th:block th:if="${authenticated}">
+            Hello <b th:text="${principal}"></b>, we see you're already logged on.
+            You can proceed to the <a href="/create-issues">issue creator</a>.
+            <p/>
+            In case you're experiencing any authentication issues, you can also
+            <a th:href="${url}">logon to your Atlassian Jira account</a> again.
+        </th:block>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Inspect - createissuemetadata</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <style>
+        h1 {
+          background-color: rgb(18, 97, 117);
+          color: white
+        }
+    </style>
+
+</head>
+<body>
+<div class="container">
+    <div class="col-sm-12">
+        <h1>Inspect - createissuemetadata</h1>
+        <p>Displays the raw result of the GET /rest/api/3/issue/createmeta Jira API endpoint. <br/>
+            See <a href="https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-createmeta-get">
+            https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-createmeta-get
+            </a> for more info.
+        </p>
+
+        <p>Note that you can only retrieve this metadata for projects you are allowed to create issues in.
+        If there's no result, the project either not exists, or you do not have the 'create issue' permissions for it.</p>
+
+        <form action="#" th:action="@{/inspect-createissuemetadata}" method="get">
+            <table>
+                <tr>
+                    <td valign="top"><b>Jira project key</b><br/>
+                        <i>(mandatory)</i></td>
+                    <td valign="top"><input type="text" name="jiraProjectKey" th:value="${jiraProjectKey}"/></td>
+                    <td valign="top"><span style="color:red" th:text="${projectMessage}"/></td>
+                </tr>
+                 <tr>
+                     <td valign="top"><b>Issuetype id or name</b><br/>
+                         <i>(optional, if you want to restrict the displayed part <br/> of the response to a single issuetype)</i></td>
+                     <td valign="top"><input type="text" name="issuetypeIdOrName" th:value="${issuetypeIdOrName}"/></td>
+                     <td valign="top"><span style="color:red" th:text="${issuetypeMessage}"/></td>
+                 </tr>
+                <tr>
+                    <td valign="top"><b>Field key or name</b><br/>
+                        <i>(optional, if you want to restrict the displayed part <br/> of the response to a single field of a single issuetype)</i></td>
+                    <td valign="top"><input type="text" name="fieldKeyOrName" th:value="${fieldKeyOrName}"/></td>
+                    <td valign="top"><span style="color:red" th:text="${fieldMessage}"/></td>
+                </tr>
+            </table>
+            <p/>
+            <p>
+                <input type="submit" value="Go get!" /> </p>
+            <p/>
+
+        </form>
+        <p>&nbsp</p>
+
+        <th:block th:if="${response}">
+            <p>
+                <b>Results</b>
+            </p>
+            <pre th:text="${response}">
+            </pre>
+        </th:block>
+    </div>
+</div>
+</body>
+</html>

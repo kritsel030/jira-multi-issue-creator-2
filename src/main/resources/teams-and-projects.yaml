@@ -1,0 +1,52 @@
+config:
+  teams-and-projects:
+    - group-id: frontendTeams
+      group-description: "frontend teams Jira projects"
+      defaultSelected: true
+      teams:
+        - name: "Team Magnum"
+          jiraProjectKey: KWS
+        - name: "Team Bocatto"
+          jiraProjectKey: PHUK
+        - name: "Team MyAccount"
+          jiraProjectKey: MACC
+        - name: "Team DC3"
+          jiraProjectKey: DC3
+    - group-id: backendTeams
+      group-description: "backend teams Jira projects"
+      defaultSelected: true
+      teams:
+        - name: "Team Asterix"
+          jiraProjectKey: TAST
+        - name: "Team Assortment"
+          jiraProjectKey: TAS
+        - name: "Team Avengers"
+          jiraProjectKey: TAV
+        - name: "Team Sherlock"
+          jiraProjectKey: TSHE
+        - name: "Team Ranger"
+          jiraProjectKey: TRA
+        - name: "Team Sakal"
+          jiraProjectKey: TSAK
+        - name: "Team Hermes"
+          jiraProjectKey: TH
+        - name: "Team Delorean"
+          jiraProjectKey: TDEL
+        - name: "Team Cortex (a.k.a. ML Ops)"
+          jiraProjectKey: CORTEX
+    - group-id: supportTeams
+      group-description: "support teams Jira projects"
+      defaultSelected: false
+      teams:
+        - name: "Frontend guild"
+          jiraProjectKey: FEM
+        - name: "Knowledge guild"
+          jiraProjectKey: KG
+        - name: "Code quality guild"
+          jiraProjectKey: CQG
+        - name: "Infrastructure guild (a.k.a. Team Venom)"
+          jiraProjectKey: DSY
+        - name: "Machine learning guild"
+          jiraProjectKey: MLG
+        - name: "Team Architecture"
+          jiraProjectKey: ARCH

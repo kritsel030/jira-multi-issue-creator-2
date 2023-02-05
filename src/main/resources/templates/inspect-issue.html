@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Inspect - issue</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <style>
+        h1 {
+          background-color: rgb(18, 97, 117);
+          color: white
+        }
+    </style>
+
+</head>
+<body>
+<div class="container">
+    <div class="col-sm-12">
+        <h1>Inspect - issue</h1>
+        <p>Displays the raw result of the GET /rest/api/3/issue/{issueKey} Jira API endpoint. <br/>
+            See <a href="https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-get">
+                https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-get
+            </a> for more info.
+        </p>
+
+        <form action="#" th:action="@{/inspect-issue}" method="get">
+            <p>
+                <b>Issue key</b>: <input type="text" name="issueKey" th:value="${issueKey}"/> <br/>
+                <span style="color:red" th:text="${issueMessage}"/>
+            </p>
+            <p>
+                <input type="submit" value="Go get!" /> </p>
+            <p/>
+
+        </form>
+        <p>&nbsp</p>
+
+        <th:block th:if="${response}">
+            <p>
+                <b>Results</b>
+            </p>
+            <pre th:text="${response}">
+            </pre>
+        </th:block>
+    </div>
+</div>
+</body>
+</html>

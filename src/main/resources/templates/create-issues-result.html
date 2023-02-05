@@ -1,0 +1,120 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:line-height="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Jira issues - result</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <style>
+        h1 {
+          background-color: rgb(18, 97, 117);
+          color: white
+        }
+
+        h4 {
+          background-color: #F4F5F7;
+        }
+
+        table.teams, th.teams, td.teams {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 3px
+        }
+
+        .check {
+            color: green;
+            font-weight: bold
+        }
+
+        .cross {
+            color: red;
+            font-weight: bold
+        }
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <h1>Jira multi-issue creator - results</h1>
+            <p/>
+            Welcome to the <b>Jira multi-issue creator</b>.
+            Your friend when you want to create a batch of identical user stories on multiple Jira boards.
+            <p/>
+
+            <b>How <u>not</u> to use this tool</b><br/>
+            Use this tool to create stories on team Jira boards, so you can keep track of progress of generic tasks
+            that need to be executed by multiple teams. <br/>
+            Do not expect teams to pick up your stories, just because you put them on their Jira boards.
+            Be polite, and properly communicate your requests to the teams via the communication channels available.
+            <p/>
+
+
+            <!---------------- step 5 ------------------------------------------------>
+            <h4>Step 5: Check out the created stories</h4>
+            <p/>
+            Maybe you want to copy-paste this so you know which stories you created?
+            <p/>
+
+            <table class="teams">
+                <thead>
+                <tr>
+                    <th class="teams" colspan="2"> Team </th>
+                    <th class="teams"> Story key </th>
+                    <th class="teams"> Error message (if any)</th>
+                </tr>
+                </thead>
+                <tbody>
+                <th:block th:each="key: ${teamsAndProjectsGroups.keySet()}">
+                    <th:block th:with="teamProjectList=${teamsAndProjectsGroups.get(key)}">
+                        <tr>
+                            <td colspan="4"> <i><b th:text="${key}" /></i> </td>
+                        </tr>
+                        <tr th:each="teamProject: ${teamProjectList}">
+                            <!-- checkbox -->
+                            <td class="teams">
+                                <!-- disable checkbox if the logged is not allowed to create a story in the project -->
+                                <input type="checkbox"
+                                       th:name="selectedJiraProjectKeys"
+                                       th:value="${teamProject.projectKey}"
+                                       th:checked="${teamProject.selected}"
+                                       disabled/>
+                            </td>
+                            <!-- team name -->
+                            <td class="teams"><span th:text="${teamProject.teamName}"> ... </span></td>
+                            <!-- created Jira issue link -->
+                            <td class="teams">
+                                <a th:if="${teamProject.createdIssueKey != null}" th:href="${'https://kramphub.atlassian.net/browse/' + teamProject.createdIssueKey}" th:text="${teamProject.createdIssueKey}"/>
+                            </td>
+                            <!-- error message, if there was one -->
+                            <td class="teams">
+                                <span th:if="${teamProject.createIssueErrorMessage != null}" th:text="${teamProject.createIssueErrorMessage}"/>
+                            </td>
+                        </tr>
+                    </th:block>
+                </th:block>
+                </tbody>
+            </table>
+            <p/>
+            <p/>
+
+            <!---------------- step 6 ------------------------------------------------>
+            <h4>Step 6: Notify the teams</h4>
+            <p/>
+            Did you read that 'How <u>not</u> to use this tool' section at the top of the page?<br/>
+            This means that now is the time to politely ask the teams that you would like them to pick up some stories.
+            Don't assume that just putting a story on a Jira board is enough.<p/>
+
+            <p/>
+
+            <!---------------- step 7 ------------------------------------------------>
+            <h4>Step 7: Create another batch of stories?</h4>
+            <p/>
+            If you need to create another batch of stories, just <a href="/create-issues">go back</a>.<br/>
+            Any data you filled in for the previous batch will still be there.
+            You can change whatever needs changing and create the next batch of stories.
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
